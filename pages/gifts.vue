@@ -1,6 +1,30 @@
 <script setup lang="ts">
 import Header from "~/components/layouts/Header.vue";
+import { ref } from 'vue'
+
+const btnStatus = ref<number>(1)
+const itemsList = ref<{ id: number }[]>([])
+
+function changeStatusButton(id: number) {
+  btnStatus.value = id
+}
+
+function setItem(id: number) {
+  if( btnStatus.value !== 1 ) {
+    const exists = itemsList.value.some(item => item.id === id)
+    if (exists) {
+      itemsList.value = itemsList.value.filter(item => item.id !== id)
+    } else {
+      itemsList.value.push({ id })
+    }
+  }
+}
+
+function isSelected(id: number) {
+  return itemsList.value.some(item => item.id === id)
+}
 </script>
+
 <template>
   <div class="gift">
     <div class="container">
@@ -9,19 +33,30 @@ import Header from "~/components/layouts/Header.vue";
     <div class="gift__content">
       <h2 class="gift__content-text">12 Подарков | 30.59 TON</h2>
       <div class="gift__content-block">
-        <img class="gift__content-image" v-for="i of 18" :key="i" src="@/public/image/items/item-1.png" alt="item" />
+        <div
+            class="gift__content-item"
+            v-for="i in 18"
+            :key="i"
+            @click="setItem(i)"
+        >
+          <img class="gift__content-image" src="@/public/image/items/item-1.png" alt="item" />
+          <div :class="['gift__content-done', { 'gift__content-hidden': !isSelected(i) }]">
+            <img src="/icons/done-icon.svg" alt="done" />
+          </div>
+        </div>
       </div>
     </div>
     <div class="gift__block container">
-      <div class="gift__button">
-        <img class="gift__button-image-left" src="/image/tabler_gift-filled-left.png" alt="gift" />
-        <img class="gift__button-image-center" src="/icons/upload.svg" alt="upload" />
-        <h3 class="gift__button-text">Вывести подарки</h3>
-        <img class="gift__button-image-right" src="/image/tabler_gift-filled-right.png" alt="gift" />
+      <div class="gift__button" :class="{ 'gift__button-active': btnStatus !== 1 }" @click="changeStatusButton(2)">
+        <img v-if="btnStatus === 1" class="gift__button-image-center" src="/icons/upload.svg" alt="upload" />
+        <h3 class="gift__button-text" v-if="btnStatus === 1">Вывести подарки</h3>
+        <h3 class="gift__button-text" v-if="btnStatus === 2 && itemsList.length === 0">Выберите подарки</h3>
+        <h3 class="gift__button-text" v-if="itemsList.length > 0">Вывести {{ itemsList.length }} подарок</h3>
       </div>
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .gift {
   display: flex;
@@ -51,9 +86,33 @@ import Header from "~/components/layouts/Header.vue";
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 2rem;
     }
+    &-item {
+      position: relative;
+    }
+    &-done {
+      position: absolute;
+      z-index: 2;
+      background-color: var(--color-black-opacity-75);
+      left: 0;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 15rem;
+      height: 15rem;
+      border: .4rem solid var(--color-light-blue);
+      border-radius: 2rem;
+      img {
+        width: 3.9rem;
+      }
+    }
+    &-hidden {
+      display: none;
+    }
     &-image {
       width: 15.5rem;
       height: 15.5rem;
+      border: .1rem solid transparent;
     }
   }
   &__block {
@@ -68,7 +127,17 @@ import Header from "~/components/layouts/Header.vue";
     width: 100%;
     border-radius: 2rem;
     height: 10rem;
-    background: linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
+    background:
+        url("@/public/image/tabler_gift-filled-left.png") left bottom no-repeat,
+        url("@/public/image/tabler_gift-filled-right.png") right bottom no-repeat,
+        linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
+    border: .1rem solid transparent;
+    &-active {
+      background:
+          url("@/public/image/tabler_gift-filled-right-a.png") left bottom no-repeat,
+          url("@/public/image/tabler_gift-filled-left-a.png") right bottom no-repeat;
+      border: .1rem solid var(--color-light-blue);
+    }
     &-text {
       font-size: 3.2rem;
     }

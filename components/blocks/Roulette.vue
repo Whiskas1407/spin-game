@@ -172,9 +172,9 @@ defineExpose({ startSpin, forceStop })
   inset: 0;
 }
 
-#bg { z-index: 0; }
+#bg { z-index: 0; display: flex; }
 #reelL, #reelC, #reelR { z-index: 1; }
-#main { z-index: 2; pointer-events: none; }
+#main { z-index: 2; pointer-events: none; display: flex; }
 
 .controls {
   display: flex;

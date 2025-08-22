@@ -4,6 +4,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
     hideUiButtons?: boolean
+    showSettings?: boolean
 }>()
 
 const number = ref(494)
@@ -26,9 +27,13 @@ onUnmounted(() => {
   <div class="header" :class="hideUiButtons ? 'hide-button' : ''">
     <!--Кнопка-->
     <NuxtLink to="/history">
-      <ButtonComponent v-if="!hideUiButtons">
+      <ButtonComponent v-if="!hideUiButtons && !showSettings">
         <img class="header__btn" src="@/public/icons/settings-rounded.svg" alt="icon" />
         <h5>История</h5>
+      </ButtonComponent>
+      <ButtonComponent v-else-if="!hideUiButtons && showSettings">
+        <img class="header__btn" src="@/public/icons/settings.svg" alt="icon" />
+        <h5>Настройки</h5>
       </ButtonComponent>
     </NuxtLink>
     <!--Онлайн-->

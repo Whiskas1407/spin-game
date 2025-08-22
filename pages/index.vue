@@ -3,7 +3,6 @@ import { ref, onMounted, watch, nextTick } from 'vue';
 import Carousel from "~/components/blocks/Carousel.vue";
 import Header from "~/components/layouts/Header.vue";
 import Roulette from "~/components/blocks/Roulette.vue";
-import HistoryBlock from "~/components/blocks/HistoryBlock.vue";
 
 const rouletteRef = ref<InstanceType<typeof Roulette> | null>(null);
 const carouselRef = ref<InstanceType<typeof Carousel> | null>(null);
@@ -106,6 +105,8 @@ watch(countRoulette, () => {
 
     &-item {
       position: absolute;
+      display: flex;
+      align-items: center;
       top: -2rem;
     }
   }

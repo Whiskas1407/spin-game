@@ -5,7 +5,7 @@ import ButtonComponent from "~/components/ui-kit/ButtonComponent.vue";
 <template>
   <div class="profile">
     <div class="container">
-      <Header />
+      <Header showSettings />
     </div>
     <div class="profile__block container">
       <div class="profile__info">
