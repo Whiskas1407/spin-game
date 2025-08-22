@@ -7,10 +7,13 @@ import HistoryBlock from "~/components/blocks/HistoryBlock.vue";
 
 const rouletteRef = ref<InstanceType<typeof Roulette> | null>(null);
 const carouselRef = ref<InstanceType<typeof Carousel> | null>(null);
+const statusButton = ref(1)
 
 function startRoulette() {
   rouletteRef.value?.startSpin();
   carouselRef.value?.next();
+  statusButton.value = 2
+  setTimeout(() => statusButton.value = 1, 3000)
 }
 
 const rouletteBtns = ref<HTMLElement[]>([]);
@@ -76,7 +79,8 @@ watch(countRoulette, () => {
     <div class="home__block container">
       <div class="home__spin" @click="startRoulette">
         <img class="home__spin-image-left" src="/image/spin-image-1.png" alt="spin" />
-        <h3 class="home__spin-text">КРУТИТЬ за 40 ⭐</h3>
+        <h3 class="home__spin-text" v-show="statusButton === 1">КРУТИТЬ за 40 ⭐</h3>
+        <h3 class="home__spin-text" v-show="statusButton === 2">Крутим...</h3>
         <img class="home__spin-image-right" src="/image/spin-image-2.png" alt="spin" />
       </div>
     </div>
@@ -155,8 +159,10 @@ watch(countRoulette, () => {
     border-radius: 2rem;
     height: 10rem;
     background: linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
+    transition: .5s ease;
     &-text {
       font-size: 3.2rem;
+      transition: .5s ease;
     }
     &-image {
       &-left {

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import HistoryBlock from "~/components/blocks/HistoryBlock.vue";
 import Header from "~/components/layouts/Header.vue";
 </script>
 <template>
