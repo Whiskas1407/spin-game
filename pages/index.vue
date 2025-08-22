@@ -186,11 +186,13 @@ watch(countRoulette, () => {
     }
     &-image {
       &-left {
+        width: 12.4rem;
         position: absolute;
         bottom: 0;
         left: 0;
       }
       &-right {
+        width: 12.7rem;
         position: absolute;
         top: 0;
         right: 0;

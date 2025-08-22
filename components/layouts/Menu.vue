@@ -35,7 +35,7 @@ console.log(route)
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem 6.7rem 4rem;
+    padding: 2rem 6.7rem 6rem;
   }
   &__item {
     display: flex;
