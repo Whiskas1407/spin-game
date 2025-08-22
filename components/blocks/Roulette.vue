@@ -1,51 +1,23 @@
-<!--Этот компонент особо не менял! Стиля сделаны не в SCSS-->
-
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick, defineExpose, watch } from 'vue'
 import lottie from 'lottie-web'
 import pako from 'pako'
 
+const props = defineProps({
+  count: { type: Number, default: 1 } // 1, 3 или 5
+})
+
 const stageRef = ref(null)
-
-async function loadTgs(url) {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`)
-
-  const arrayBuffer = await res.arrayBuffer()
-  const uint8 = new Uint8Array(arrayBuffer)
-
-  const isGzip = uint8[0] === 0x1f && uint8[1] === 0x8b
-
-  if (isGzip) {
-    return JSON.parse(pako.ungzip(uint8, { to: 'string' }))
-  } else {
-    return JSON.parse(new TextDecoder().decode(uint8))
-  }
-}
-
-function createAnim({ container, data, loop = true, autoplay = true, renderer = 'canvas' }) {
-  return lottie.loadAnimation({
-    container,
-    loop,
-    autoplay,
-    animationData: data,
-    renderer,
-    rendererSettings: { progressiveLoad: true, clearCanvas: true, preserveAspectRatio: 'xMidYMid meet' }
-  })
-}
-
-const layers = { bg: null, main: null, reelL: null, reelC: null, reelR: null }
+const layers = ref({ bg: null, main: null }) // bg и main остаются одни
+let spinning = false
+let spinTimer = null
 
 const PATH = '/roulette-file'
 const files = {
   main: `${PATH}/main.tgs`,
   block: `${PATH}/block.tgs`,
   win: `${PATH}/win.tgs`,
-  spins: {
-    left: `${PATH}/spin-left.tgs`,
-    center: `${PATH}/spin-center.tgs`,
-    right: `${PATH}/spin-right.tgs`
-  },
+  spins: { left: `${PATH}/spin-left.tgs`, center: `${PATH}/spin-center.tgs`, right: `${PATH}/spin-right.tgs` },
   results: {
     left: { bar: `${PATH}/left-bar.tgs`, grape: `${PATH}/left-grape.tgs`, lemon: `${PATH}/left-lemon.tgs`, seven: `${PATH}/left-7.tgs`, sevenWin: `${PATH}/left-7-win.tgs` },
     center: { bar: `${PATH}/center-bar.tgs`, grape: `${PATH}/center-grape.tgs`, lemon: `${PATH}/center-lemon.tgs`, seven: `${PATH}/center-7.tgs`, sevenWin: `${PATH}/center-7-win.tgs` },
@@ -53,56 +25,105 @@ const files = {
   }
 }
 
-let spinning = false
-let spinTimer = null
-const MIN_SPIN_MS = 1600
-const MAX_SPIN_MS = 2600
+// --- UTILS ---
+async function loadTgs(url) {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`)
+  const arrayBuffer = await res.arrayBuffer()
+  const uint8 = new Uint8Array(arrayBuffer)
+  const isGzip = uint8[0] === 0x1f && uint8[1] === 0x8b
+  if (isGzip) return JSON.parse(pako.ungzip(uint8, { to: 'string' }))
+  return JSON.parse(new TextDecoder().decode(uint8))
+}
 
-async function swapAnim(layerId, url, opts = {}) {
-  layers[layerId]?.destroy()
-  layers[layerId] = null
-
-  const data = await loadTgs(url)
-  const container = document.getElementById(layerId)
-  if (!container) return
-
-  const anim = createAnim({
+function createAnim({ container, data, loop = true, autoplay = true }) {
+  const anim = lottie.loadAnimation({
     container,
-    data,
-    loop: opts.loop ?? false,
-    autoplay: opts.autoplay ?? true,
-    renderer: 'canvas'
+    loop,
+    autoplay,
+    animationData: data,
+    renderer: 'canvas',
+    rendererSettings: { preserveAspectRatio: 'xMidYMid meet', clearCanvas: true, progressiveLoad: true }
   })
-
-  if ((opts.loop ?? false) === false) {
-    anim.addEventListener('complete', () => {
-      const lastFrame = Math.floor(anim.getDuration(true)) - 1
-      if (lastFrame >= 0) anim.goToAndStop(lastFrame, true)
-    })
-  }
-
-  layers[layerId] = anim
+  const canvas = container.querySelector('canvas')
+  if (canvas) { canvas.style.width = '100%'; canvas.style.height = '100%'; canvas.style.display = 'block' }
   return anim
 }
 
+async function swapAnim(layerId, url, opts = {}) {
+  layers.value[layerId]?.destroy()
+  layers.value[layerId] = null
+  const container = document.getElementById(layerId)
+  if (!container) return
+  const data = await loadTgs(url)
+  layers.value[layerId] = createAnim({ container, data, loop: opts.loop ?? false, autoplay: opts.autoplay ?? true })
+  return layers.value[layerId]
+}
+
+// --- Helpers ---
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)] }
+function randomInt(a, b) { return Math.floor(a + Math.random() * (b - a)) }
+
+// --- Layout и подготовка рулеток ---
+async function updateLayout(count) {
+  if (!stageRef.value) return
+  const stage = stageRef.value
+  // ширина и высота stage
+  if (count === 1) { stage.style.width = '30rem'; stage.style.height = '27.5rem' }
+  else if (count === 3) { stage.style.width = '18rem'; stage.style.height = '17rem' }
+  else if (count === 5) { stage.style.width = '14rem'; stage.style.height = '14rem' }
+
+  // удаляем лишние рулетки (кроме reelL/C/R)
+  const reels = Array.from(stage.querySelectorAll('[id^=reel]'))
+  reels.forEach(el => { if (!['reelL','reelC','reelR'].includes(el.id)) el.remove() })
+
+  // добавляем дополнительные рулетки, если count > 3
+  for (let i = 3; i < count; i++) {
+    const div = document.createElement('div')
+    div.id = `reel${i}`
+    div.className = 'layer'
+    stage.appendChild(div)
+    layers.value[div.id] = null
+  }
+
+  await nextTick() // ждем пока DOM обновится
+}
+
+// --- Spin ---
 async function startSpin() {
   if (spinning) return
   spinning = true
 
-  layers.main?.goToAndStop(0, true)
-  layers.main?.play()
+  layers.value.main?.goToAndStop(0, true)
+  layers.value.main?.play()
   await swapAnim('bg', files.block)
 
-  await Promise.all([
-    swapAnim('reelL', files.spins.left, { loop: true }),
-    swapAnim('reelC', files.spins.center, { loop: true }),
-    swapAnim('reelR', files.spins.right, { loop: true })
-  ])
+  const allReels = Array.from(stageRef.value.querySelectorAll('[id^=reel]'))
 
-  spinTimer = setTimeout(settleRandomOutcome, randomInt(MIN_SPIN_MS, MAX_SPIN_MS))
+  await Promise.all(allReels.map((r, i) => {
+    const spinFile = i === 0 ? files.spins.left : i === 1 ? files.spins.center : i === 2 ? files.spins.right : files.spins.center
+    return swapAnim(r.id, spinFile, { loop: true })
+  }))
+
+  spinTimer = setTimeout(settleRandomOutcome, randomInt(1600, 2600))
 }
 
-defineExpose({ startSpin })
+async function settleRandomOutcome() {
+  const symbols = ['bar', 'grape', 'lemon', 'seven']
+  const allReels = Array.from(stageRef.value.querySelectorAll('[id^=reel]'))
+  const outcome = allReels.map(() => pick(symbols))
+  const is777 = outcome.every(s => s === 'seven')
+
+  await Promise.all(allReels.map((r, i) => {
+    const pos = i === 0 ? 'left' : i === 1 ? 'center' : i === 2 ? 'right' : 'center'
+    const symbol = outcome[i]
+    const file = is777 && symbol === 'seven' ? files.results[pos].sevenWin : files.results[pos][symbol]
+    return swapAnim(r.id, file)
+  }))
+
+  if (is777) setTimeout(() => swapAnim('bg', files.win, { loop: false, autoplay: true }), 1400)
+  spinning = false
+}
 
 async function forceStop() {
   if (!spinning) return
@@ -110,42 +131,19 @@ async function forceStop() {
   await settleRandomOutcome()
 }
 
-async function settleRandomOutcome() {
-  const symbols = ['bar', 'grape', 'lemon', 'seven']
-  const L = pick(symbols), C = pick(symbols), R = pick(symbols)
-  const is777 = (L === 'seven' && C === 'seven' && R === 'seven')
-
-  if (is777) {
-    await Promise.all([
-      swapAnim('reelL', files.results.left.sevenWin),
-      swapAnim('reelC', files.results.center.sevenWin),
-      swapAnim('reelR', files.results.right.sevenWin)
-    ])
-    setTimeout(() => swapAnim('bg', files.win, { loop: false, autoplay: true }), 1400)
-  } else {
-    await Promise.all([
-      swapAnim('reelL', files.results.left[L]),
-      swapAnim('reelC', files.results.center[C]),
-      swapAnim('reelR', files.results.right[R])
-    ])
-  }
-
-  spinning = false
-}
-
-function pick(arr) { return arr[(Math.random() * arr.length) | 0] }
-function randomInt(a, b) { return (a + Math.random() * (b - a)) | 0 }
-
+// --- Mounted ---
 onMounted(async () => {
   await swapAnim('bg', files.block, { loop: true, autoplay: true })
   await swapAnim('main', files.main, { loop: false, autoplay: false })
-
-  ;['reelL', 'reelC', 'reelR'].forEach(id => {
-    const el = document.getElementById(id)
-    if (el) el.innerHTML = ''
-  })
+  updateLayout(props.count)
 })
+
+// --- Watch ---
+watch(() => props.count, (newCount) => { updateLayout(newCount) })
+
+defineExpose({ startSpin, forceStop })
 </script>
+
 <template>
   <div>
     <div class="stage" ref="stageRef">
@@ -159,6 +157,7 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+
 <style scoped>
 .stage {
   position: relative;
