@@ -3,10 +3,11 @@
     <div class="app">
       <img class="app__shadow-top" src="/image/shadow-top.svg" alt="shadow">
       <div class="app__container">
+        <HistoryBlock />
         <NuxtPage />
+        <Menu />
       </div>
       <img class="app__shadow-bottom" src="/image/shadow-bottom.svg" alt="shadow">
-      <Menu />
     </div>
   </NuxtLayout>
 </template>
@@ -23,11 +24,13 @@
   }
   &__shadow {
     &-top {
+      width: 58.9rem;
       position: absolute;
       top: 0;
       z-index: -1;
     }
     &-bottom {
+      width: 58.9rem;
       position: absolute;
       bottom: 0;
       z-index: -1;
@@ -37,4 +40,5 @@
 </style>
 <script setup lang="ts">
 import Menu from "~/components/layouts/Menu.vue";
+import HistoryBlock from "~/components/blocks/HistoryBlock.vue";
 </script>

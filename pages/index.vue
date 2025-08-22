@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, nextTick } from 'vue';
-import HistoryCase from "~/components/blocks/HistoryCase.vue";
 import Carousel from "~/components/blocks/Carousel.vue";
 import Header from "~/components/layouts/Header.vue";
 import Roulette from "~/components/blocks/Roulette.vue";
+import HistoryBlock from "~/components/blocks/HistoryBlock.vue";
 
 const rouletteRef = ref<InstanceType<typeof Roulette> | null>(null);
 const carouselRef = ref<InstanceType<typeof Carousel> | null>(null);
@@ -48,18 +48,6 @@ watch(countRoulette, () => {
 
 <template>
   <div class="home">
-    <!-- История-->
-    <div class="home__history">
-      <div class="home__history-track">
-        <HistoryCase />
-        <HistoryCase />
-        <HistoryCase />
-        <HistoryCase />
-        <HistoryCase />
-        <HistoryCase />
-      </div>
-    </div>
-
     <div class="container">
       <Header />
     </div>
@@ -97,20 +85,6 @@ watch(countRoulette, () => {
 
 <style lang="scss" scoped>
 .home {
-  &__history {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    width: 100vw;
-    overflow: hidden;
-
-    &-track {
-      display: flex;
-      gap: 1rem;
-      animation: scroll-left 10s linear infinite;
-    }
-  }
-
   &__cards {
     display: flex;
     flex-direction: column;
@@ -201,12 +175,4 @@ watch(countRoulette, () => {
   }
 }
 
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 </style>

@@ -2,10 +2,13 @@
   --color-black: #000000;
   --color-black-opacity-50: rgba(0, 0, 0, 0.5);
   --color-black-opacity-40: rgba(0, 0, 0, 0.4);
+  --color-black-opacity-25: rgba(0, 0, 0, 0.25);
   --color-white: #ffffff;
   --color-green: #44EB56;
   --color-orange: #F58515;
   --color-blue: #158CF5;
   --color-light-blue: #00AEFF;
   --color-gray: #747474;
+  --color-gradient-blue: linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
+
 }

@@ -2,6 +2,10 @@
 import ButtonComponent from "~/components/ui-kit/ButtonComponent.vue";
 import { ref, onMounted, onUnmounted } from 'vue'
 
+const props = defineProps<{
+    hideUiButtons?: boolean
+}>()
+
 const number = ref(494)
 let intervalId: number | undefined
 
@@ -19,19 +23,21 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <div class="header">
+  <div class="header" :class="hideUiButtons ? 'hide-button' : ''">
     <!--Кнопка-->
-    <ButtonComponent>
-      <img class="header__btn" src="@/public/icons/settings-rounded.svg" alt="icon" />
-      <h5>История</h5>
-    </ButtonComponent>
+    <NuxtLink to="/history">
+      <ButtonComponent v-if="!hideUiButtons">
+        <img class="header__btn" src="@/public/icons/settings-rounded.svg" alt="icon" />
+        <h5>История</h5>
+      </ButtonComponent>
+    </NuxtLink>
     <!--Онлайн-->
     <div class="header__online">
       <div class="header__online-status"></div>
       <h4>{{ number }} Онлайн</h4>
     </div>
     <!--Баланс-->
-    <div class="header__balance">
+    <div class="header__balance" v-if="!hideUiButtons">
       <ButtonComponent background="color-orange">
         <div class="header__balance-btn">
           <img class="header__balance-btn-image" src="@/public/icons/star-icon.svg" alt="star" />
@@ -87,5 +93,8 @@ onUnmounted(() => {
       }
     }
   }
+}
+.hide-button {
+  justify-content: center;
 }
 </style>
