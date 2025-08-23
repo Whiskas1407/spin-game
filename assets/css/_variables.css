@@ -4,12 +4,19 @@
   --color-black-opacity-50: rgba(0, 0, 0, 0.5);
   --color-black-opacity-40: rgba(0, 0, 0, 0.4);
   --color-black-opacity-25: rgba(0, 0, 0, 0.25);
+  --color-gray-opacity-20:  rgba(20, 20, 20, 0.2);
+  --color-gray-opacity-10:  rgba(38, 38, 38, 0.1);
+  --color-white-opacity-30: rgba(255, 255, 255, 0.30);
+  --color-green-opacity-30: rgba(92, 255, 97, 0.3);
   --color-white: #ffffff;
   --color-green: #44EB56;
   --color-orange: #F58515;
+  --color-gold: #F8B121;
+  --color-brown: #4E3500;
   --color-blue: #158CF5;
   --color-light-blue: #00AEFF;
   --color-gray: #747474;
+  --color-gray-light: #898989;
   --color-gradient-blue: linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
 
 }

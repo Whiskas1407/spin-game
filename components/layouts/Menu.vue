@@ -24,7 +24,8 @@ console.log(route)
 </template>
 <style lang="scss" scoped>
 .menu {
-  margin-top: 4rem;
+  position: absolute;
+  bottom: 0;
   width: 100%;
   background-color: var(--color-black-opacity-50);
   z-index: 2;

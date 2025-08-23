@@ -1,25 +1,44 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, computed } from "vue";
 import Item1 from '~/public/image/items/item-1.png'
 import Item2 from '~/public/image/items/item-2.png'
 import Item3 from '~/public/image/items/item-3.png'
 
-const items = [
+interface CarouselItem {
+  id: number;
+  img: string;
+  title: string;
+  stars: string;
+}
+
+const items: CarouselItem[] = [
   { id: 1, img: Item1, title: 'Lunar Snake', stars: '40 000 ⭐' },
   { id: 2, img: Item2, title: 'Plush Pepe', stars: '150 000 ⭐' },
   { id: 3, img: Item3, title: 'Cristal Stone', stars: '400 000 ⭐' },
   { id: 4, img: Item1, title: 'Lunar Snake', stars: '40 000 ⭐' },
   { id: 5, img: Item2, title: 'Plush Pepe', stars: '150 000 ⭐' },
-]
+];
 
-const current = ref(0)
+const current = ref(0);
 
 function next() {
-  current.value = (current.value + 1) % items.length
+  current.value = (current.value + 1) % items.length;
 }
 
-defineExpose({ next })
+defineExpose({ next });
 
+// Функция для генерации стилей для элемента карусели
+const getItemStyle = (index: number) => {
+  const diff = index - current.value;
+  const isActive = index === current.value;
+
+  return {
+    transform: `translateX(${diff * 120}%) scale(${isActive ? 1 : 0.8})`,
+    opacity: Math.abs(diff) > 1 ? 0 : 1,
+    zIndex: isActive ? 2 : 1,
+    filter: isActive ? 'none' : 'blur(6px)'
+  };
+};
 </script>
 
 <template>
@@ -29,19 +48,11 @@ defineExpose({ next })
           v-for="(item, index) in items"
           :key="item.id"
           class="carousel__item"
-          :style="{
-          transform: `translateX(${(index - current) * 120}%) scale(${index === current ? 1 : 0.8})`,
-          opacity: Math.abs(index - current) > 1 ? 0 : 1,
-          zIndex: index === current ? 2 : 1
-        }"
+          :style="getItemStyle(index)"
       >
-        <h2 class="carousel__title" :style="{ opacity: index === current ? 1 : 0 }">
-          {{ item.title }}
-        </h2>
-        <h3 class="carousel__subtitle" :style="{ opacity: index === current ? 1 : 0 }">
-          {{ item.stars }}
-        </h3>
-        <img :src="item.img" alt="image"/>
+        <h2 class="carousel__title" :style="{ opacity: index === current ? 1 : 0 }">{{ item.title }}</h2>
+        <h3 class="carousel__subtitle" :style="{ opacity: index === current ? 1 : 0 }">{{ item.stars }}</h3>
+        <img :src="item.img" alt="image" />
         <h5 class="carousel__bottom" :style="{ opacity: index === current ? 1 : 0 }">🍋🍋🍋 что бы получить</h5>
       </div>
     </div>
@@ -91,19 +102,21 @@ defineExpose({ next })
   &__title, &__subtitle, &__bottom {
     transition: opacity 0.5s ease;
   }
+
   &__subtitle {
     position: absolute;
     top: 5.5rem;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 2rem;
-    border: .1rem solid var(--color-light-blue);
+    border: 0.1rem solid var(--color-light-blue);
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(2rem);
   }
+
   &__bottom {
     position: absolute;
     bottom: -1.5rem;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 2rem;
     background-color: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(2rem);
