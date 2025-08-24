@@ -73,7 +73,7 @@ const isGoldProfileText = (path: string) =>
 .menu {
   position: fixed;
   bottom: -.1rem;
-  width: 58.9rem;
+  width: 100%;
   background-color: var(--color-black-opacity-50);
   z-index: 2;
   border-top: .1rem solid #FFFFFF;
@@ -115,6 +115,12 @@ const isGoldProfileText = (path: string) =>
       width: 4rem;
       height: 4rem;
     }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .menu {
+    max-width: 769px;
   }
 }
 </style>

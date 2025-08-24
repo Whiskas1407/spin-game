@@ -27,18 +27,18 @@ const route = useRoute()
   &__container {
     position: relative;
     z-index: 1;
-    max-width: 58.9rem;
+    max-width: 100%;
     margin: 0 auto;
   }
   &__shadow {
     &-top {
-      width: 58.9rem;
+      width: 100vw;
       position: absolute;
       top: 0;
       z-index: -1;
     }
     &-bottom {
-      width: 58.9rem;
+      width: 100vw;
       position: absolute;
       bottom: 0;
       z-index: -1;
