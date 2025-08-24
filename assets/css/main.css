@@ -1,5 +1,6 @@
 :root {
-    font-size: 1.698vw; /* 1rem ≈ 10px при 589px */
+    /*font-size: min(1.698vw, .77vh)*/
+    font-size: 1.698vw;
 }
 
 @media screen and (min-width: 600px) {

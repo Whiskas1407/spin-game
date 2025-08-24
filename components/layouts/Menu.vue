@@ -4,7 +4,7 @@ const route = useRoute();
 console.log(route.fullPath)
 </script>
 <template>
-  <div class="menu" :class="route.fullPath === '/history' || route.fullPath === '/leaders' ? 'menu__fixed' : ''">
+  <div class="menu">
     <div class="menu__block">
       <NuxtLink to="/gifts" class="menu__item">
         <img class="menu__item-image" src="@/public/icons/gift.svg" alt="gift" />
@@ -23,7 +23,7 @@ console.log(route.fullPath)
 </template>
 <style lang="scss" scoped>
 .menu {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 58.9rem;
   background-color: var(--color-black-opacity-50);
@@ -31,6 +31,7 @@ console.log(route.fullPath)
   border-top: .1rem solid #FFFFFF;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
+  backdrop-filter: blur(50rem);
   &__fixed {
     position: fixed !important;
   }
