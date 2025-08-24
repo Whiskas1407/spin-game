@@ -25,12 +25,12 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
         <div v-for="item in historyItems" :key="item.id" class="history__item">
           <div class="history__user">
             <img :src="item.userImage" alt="user" />
-            <h4>{{ item.username }}</h4>
+            <h4 class="font-semibold">{{ item.username }}</h4>
           </div>
 
           <img class="history__item-image" :src="item.itemImage" alt="item" />
 
-          <h5>c {{ item.spins }} крутки!</h5>
+          <h5 class="font-semibold">c {{ item.spins }} крутки!</h5>
           <p>{{ item.date }}</p>
         </div>
       </div>
@@ -44,7 +44,7 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
   background-repeat: no-repeat;
   background-position: bottom left, top right;
   background-size: 70%;
-  padding-bottom: 20rem;
+  padding-bottom: 14rem;
 
   &__content {
     display: flex;
@@ -63,7 +63,7 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
     align-items: center;
     gap: 4.5rem;
     padding-top: 2.5rem;
-    height: 100vh;
+    height: 90vh;
     overflow-y: auto;
   }
 
@@ -82,7 +82,8 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
       bottom: 2rem;
       padding: 0.5rem;
       border-radius: 1rem;
-      background-color: var(--color-black-opacity-40);
+      backdrop-filter: blur(2rem);
+      background-color: var(--color-black-opacity-5);
     }
 
     p {
@@ -100,8 +101,8 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
     padding: 0.5rem;
     border-radius: 1rem;
     border-top: 0.1rem solid var(--color-light-blue);
-    background-color: var(--color-black-opacity-50);
-
+    background-color: var(--color-black-opacity-5);
+    backdrop-filter: blur(2rem);
     img {
       width: 3rem;
     }

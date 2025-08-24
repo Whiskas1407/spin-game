@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Header from "~/components/layouts/Header.vue";
+import Header from "@/components/layouts/Header.vue";
 </script>
 
 <template>
@@ -66,13 +66,12 @@ import Header from "~/components/layouts/Header.vue";
 
 <style lang="scss" scoped>
 .leaders {
-  width: 100vw;
   height: 100%;
   padding: 10rem 0 20rem;
   background:
-      url("@/public/image/leaders-bg-1.png") top right no-repeat,
-      url("@/public/image/leaders-bg-2.png") left center no-repeat,
-      url("@/public/image/leaders-bg-3.png") bottom right no-repeat,
+      url("@/public/image/leaders-bg-1.png") top right / 28.3rem no-repeat,
+      url("@/public/image/leaders-bg-2.png") left center / 28.3rem no-repeat,
+      url("@/public/image/leaders-bg-3.png") bottom right / 28.3rem no-repeat,
       linear-gradient(180deg, #F9B221 0%, #553900 100%);
 
   &__info {
@@ -91,7 +90,7 @@ import Header from "~/components/layouts/Header.vue";
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    height: 100vh;
+    height: 55vh;
     overflow-y: scroll;
   }
 

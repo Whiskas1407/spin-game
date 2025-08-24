@@ -26,7 +26,6 @@ const items: HistoryItem[] = [
 
 <style lang="scss" scoped>
 .history {
-  width: 100vw;
   overflow: hidden;
   padding-top: 2rem;
   display: flex;

@@ -13,8 +13,8 @@ defineProps<{
   <div :class="['case', { active: item.active }]">
     <img class="case__image" src="/image/default-user.png" alt="user" />
     <div class="case__user">
-      <p class="case__user-name font-medium">@username</p>
-      <p class="font-medium">{{ item.active ? 'Выбил' : 'Не выбил' }}</p>
+      <p class="case__user-name font-semibold">@username</p>
+      <p class="font-semibold">{{ item.active ? 'Выбил' : 'Не выбил' }}</p>
     </div>
     <img class="case__roulette" src="/image/ruletka-icon.png" alt="ruletka" />
   </div>

@@ -1,20 +1,39 @@
 <script setup>
-defineProps({ modelValue: Boolean })
+import { ref } from 'vue';
+
+const isVisible = ref(true);
+const isHiding = ref(false);
+
+defineProps({
+  modelValue: Boolean,
+  positionModal: String
+})
 const emit = defineEmits(['update:modelValue'])
+
+function closeModal() {
+  isHiding.value = true;
+  setTimeout(() => {
+    isVisible.value = false;
+    isHiding.value = false;
+    emit('update:modelValue', false)
+  }, 300);
+}
+
 </script>
 <template>
   <teleport to="body">
     <div
         v-if="modelValue"
         class="modal-overlay"
-        @click.self="emit('update:modelValue', false)"
+        :class="positionModal === 'bottom' ? 'modal-overlay-bottom' : ''"
+        @click.self="closeModal"
     >
-      <div class="modal-content" data-aos="zoom-in">
+      <div :class="{ hide: isHiding }" class="modal-content" data-aos="zoom-in">
         <img
             class="modal-close"
             src="/icons/close.svg"
             alt="close"
-            @click.self="emit('update:modelValue', false)"
+            @click.self="closeModal"
         />
         <slot />
       </div>
@@ -32,6 +51,9 @@ const emit = defineEmits(['update:modelValue'])
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.6);
+    &-bottom {
+      align-items: flex-end !important;
+    }
   }
 
   &-content {
@@ -47,6 +69,7 @@ const emit = defineEmits(['update:modelValue'])
     max-width: 100%;
     max-height: 90vh;
     overflow-y: auto;
+    animation: showModal .4s ease;
   }
 
   &-close {
@@ -117,20 +140,19 @@ const emit = defineEmits(['update:modelValue'])
     display: flex;
     align-items: center;
     gap: 1rem;
+    width: 100%;
 
     input {
       font-size: 6.4rem;
       border: none;
       background: none;
-      width: 7rem;
-      max-width: 12rem;
+      width: 22rem;
       color: var(--color-white);
       outline: none;
+      text-align: right;
     }
-
-    h2 {
-      font-size: 3.6rem;
-      color: var(--color-gray-light);
+    img {
+      width: 4rem;
     }
   }
 
@@ -138,7 +160,7 @@ const emit = defineEmits(['update:modelValue'])
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 2rem;
+    border-radius: 2rem !important;
     height: 8rem;
 
     &,
@@ -182,6 +204,12 @@ const emit = defineEmits(['update:modelValue'])
     border: 0.2rem solid var(--color-orange);
     background-color: var(--color-black);
     border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    img {
+      width: 2.5rem;
+    }
   }
 
   &__lang {
@@ -189,7 +217,8 @@ const emit = defineEmits(['update:modelValue'])
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    padding: 2rem;
+    padding: 2rem 0;
+    width: 16rem;
     border-radius: 2rem;
     border: 0.2rem solid var(--color-blue);
 
@@ -203,8 +232,31 @@ const emit = defineEmits(['update:modelValue'])
       &-bg {
         background-color: var(--color-white);
         border: 0.2rem solid transparent;
+        transition: .5s ease;
       }
     }
+  }
+}
+
+.hide {
+  animation: hideModal 0.3s forwards;
+}
+
+@keyframes showModal {
+  0% {
+    transform: translateY(100vh);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hideModal {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100vh);
   }
 }
 </style>

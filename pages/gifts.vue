@@ -39,8 +39,8 @@ const buttonText = computed(() => {
 
     <!-- Контент подарков -->
     <div class="gift__content">
-      <h2 class="gift__content-text">12 Подарков | 30.59 TON</h2>
-      <div class="gift__content-block">
+      <h2 class="gift__content-text" v-if="gifts.length > 0">12 Подарков | 30.59 <span>TON</span></h2>
+      <div class="gift__content-block" v-if="gifts.length > 0">
         <div
             v-for="id in gifts"
             :key="id"
@@ -49,29 +49,42 @@ const buttonText = computed(() => {
         >
           <img class="gift__content-image" src="@/public/image/items/item-1.png" alt="item" />
           <div :class="['gift__content-done', { 'gift__content-hidden': !isSelected(id) }]">
-            <img src="/icons/done-icon.svg" alt="done" />
+            <img src="@/public/icons/done-icon.svg" alt="done" />
           </div>
         </div>
+      </div>
+      <div class="gift__content-empty" v-else>
+        <img src="@/public/icons/emoticon-cry.svg" alt="emoji" />
+        <h3>Вы пока не выиграли <br> ни один подарок.</h3>
       </div>
     </div>
 
     <!-- Кнопка -->
     <div class="gift__block container">
       <div
+          v-if="gifts.length > 0"
           class="gift__button"
           :class="{ 'gift__button-active': btnStatus !== 1 }"
           @click="btnStatus !== 1 && itemsList.length > 0 ? showModalGifts = true : changeStatusButton(2)"
       >
-        <img v-if="btnStatus === 1" class="gift__button-image-center" src="/icons/upload.svg" alt="upload" />
+        <img v-if="btnStatus === 1" class="gift__button-image-center" src="@/public/icons/upload.svg" alt="upload" />
         <h3 class="gift__button-text">{{ buttonText }}</h3>
       </div>
+      <NuxtLink
+          to="/"
+          v-else
+          class="gift__button"
+      >
+        <img class="gift__button-image-center" src="@/public/icons/noto_slot-machine.svg" alt="slot" />
+        <h3 class="gift__button-text">Начать крутить...</h3>
+      </NuxtLink>
     </div>
 
     <!-- Модальное окно -->
     <Modal :model-value="showModalGifts" @update:modelValue="showModalGifts = $event">
       <div class="wallet">
         <div class="wallet__head">
-          <h3>Вы уверены что хотите вывести {{ itemsList.length }} подарок?</h3>
+          <h3>Вы уверены что хотите вывести <br> {{ itemsList.length }} подарок?</h3>
         </div>
         <div class="wallet__buttons">
           <ButtonComponent background="color-blue" class="wallet__btn" @click="showModalGifts = false">
@@ -105,6 +118,11 @@ const buttonText = computed(() => {
       border-top: .1rem solid var(--color-light-blue);
       border-radius: 2rem 2rem 0 0;
       background-color: var(--color-black-opacity-50);
+      span {
+        background: linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
 
     &-block {
@@ -130,13 +148,34 @@ const buttonText = computed(() => {
       background-color: var(--color-black-opacity-75);
       border: .4rem solid var(--color-light-blue);
       border-radius: 2rem;
+      opacity: 1;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 
       img { width: 3.9rem; }
     }
 
-    &-hidden { display: none; }
+    &-hidden {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    }
 
     &-image { width: 15.5rem; height: 15.5rem; border: .1rem solid transparent; }
+    &-empty {
+      width: 100%;
+      height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      img {
+        width: 11.2rem;
+      }
+      h3 {
+        text-align: center;
+      }
+    }
   }
 
   &__block { padding-top: 1.3rem; }
@@ -149,15 +188,15 @@ const buttonText = computed(() => {
     height: 10rem;
     border-radius: 2rem;
     background:
-        url("@/public/image/tabler_gift-filled-left.png") left bottom no-repeat,
-        url("@/public/image/tabler_gift-filled-right.png") right bottom no-repeat,
+        url("@/public/image/tabler_gift-filled-left.png") left bottom / 10rem no-repeat,
+        url("@/public/image/tabler_gift-filled-right.png") right bottom / 10rem no-repeat,
         linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
     border: .1rem solid transparent;
 
     &-active {
       background:
-          url("@/public/image/tabler_gift-filled-right-a.png") left bottom no-repeat,
-          url("@/public/image/tabler_gift-filled-left-a.png") right bottom no-repeat;
+          url("@/public/image/tabler_gift-filled-right-a.png") left bottom / 10rem no-repeat,
+          url("@/public/image/tabler_gift-filled-left-a.png") right bottom / 10rem no-repeat;
       border: .1rem solid var(--color-light-blue);
     }
 

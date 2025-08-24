@@ -29,10 +29,10 @@ const referrals = Array(3).fill({ text: 'Получайте с депозита 
       <div class="profile__stats">
         <div class="profile__stats-item" v-for="(stat, index) in stats" :key="index">
           <div class="profile__stats-item-info">
-            <h3>{{ stat.value }}</h3>
+            <h3 class="font-light">{{ stat.value }}</h3>
             <img :src="stat.icon" :alt="stat.label" />
           </div>
-          <h5>{{ stat.label }}</h5>
+          <h5 class="font-light">{{ stat.label }}</h5>
         </div>
       </div>
 

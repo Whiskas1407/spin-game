@@ -72,7 +72,7 @@ const languages = [
       <ButtonComponent background="color-orange" @click="statusModal.buyStar = true">
         <div class="header__balance-btn">
           <img class="header__balance-btn-image" src="@/public/icons/star-icon.svg" alt="star" />
-          <h5>0</h5>
+          <h5 class="font-medium">0</h5>
         </div>
         <img class="header__balance-btn-add" src="@/public/icons/add-white-icon.svg" alt="add-icon" />
       </ButtonComponent>
@@ -80,7 +80,7 @@ const languages = [
       <ButtonComponent background="color-blue" @click="statusModal.buyToken = true">
         <div class="header__balance-btn">
           <img class="header__balance-btn-image" src="@/public/icons/token_ton.svg" alt="token" />
-          <h5>0.00</h5>
+          <h5 class="font-medium">0.00</h5>
         </div>
         <img class="header__balance-btn-add" src="@/public/icons/add-white-icon.svg" alt="add-icon" />
       </ButtonComponent>
@@ -124,12 +124,12 @@ const languages = [
         </div>
 
         <div class="wallet__items" v-if="!changeCountStars">
-          <h3 class="wallet__item" v-for="amount in [100, 300, 500]" :key="amount">{{ amount }} ⭐</h3>
+          <h3 class="wallet__item" v-for="amount in [100, 300, 500]" :key="amount">{{ amount }} <img src="@/public/icons/Star.svg" alt="icon" /></h3>
         </div>
 
         <div class="wallet__input" v-else>
           <input type="number" placeholder="0" />
-          <h2>⭐</h2>
+          <img src="@/public/icons/Star.svg" alt="icon" />
         </div>
 
         <ButtonComponent
@@ -153,7 +153,7 @@ const languages = [
     </Modal>
 
     <!-- Настройки -->
-    <Modal :model-value="statusModal.settings" @update:modelValue="statusModal.settings = $event">
+    <Modal :model-value="statusModal.settings" @update:modelValue="statusModal.settings = $event" positionModal="bottom">
       <div class="wallet">
         <div class="wallet__head">
           <div class="wallet__head-text">

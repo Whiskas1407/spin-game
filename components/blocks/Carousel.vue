@@ -12,11 +12,11 @@ interface CarouselItem {
 }
 
 const items: CarouselItem[] = [
-  { id: 1, img: Item1, title: 'Lunar Snake', stars: '40 000 ⭐' },
-  { id: 2, img: Item2, title: 'Plush Pepe', stars: '150 000 ⭐' },
-  { id: 3, img: Item3, title: 'Cristal Stone', stars: '400 000 ⭐' },
-  { id: 4, img: Item1, title: 'Lunar Snake', stars: '40 000 ⭐' },
-  { id: 5, img: Item2, title: 'Plush Pepe', stars: '150 000 ⭐' },
+  { id: 1, img: Item1, title: 'Lunar Snake', stars: '40 000' },
+  { id: 2, img: Item2, title: 'Plush Pepe', stars: '150 000' },
+  { id: 3, img: Item3, title: 'Cristal Stone', stars: '400 000' },
+  { id: 4, img: Item1, title: 'Lunar Snake', stars: '40 000' },
+  { id: 5, img: Item2, title: 'Plush Pepe', stars: '150 000' },
 ];
 
 const current = ref(0);
@@ -51,9 +51,19 @@ const getItemStyle = (index: number) => {
           :style="getItemStyle(index)"
       >
         <h2 class="carousel__title" :style="{ opacity: index === current ? 1 : 0 }">{{ item.title }}</h2>
-        <h3 class="carousel__subtitle" :style="{ opacity: index === current ? 1 : 0 }">{{ item.stars }}</h3>
+        <h3 class="carousel__subtitle" :style="{ opacity: index === current ? 1 : 0 }">
+          {{ item.stars }}
+          <img src="/icons/Star.svg" alt="star" />
+        </h3>
         <img :src="item.img" alt="image" />
-        <h5 class="carousel__bottom" :style="{ opacity: index === current ? 1 : 0 }">🍋🍋🍋 что бы получить</h5>
+        <h5 class="carousel__bottom" :style="{ opacity: index === current ? 1 : 0 }">
+          <div class="carousel__bottom-icons">
+            <img src="/icons/Lemon.svg" alt="lemon" />
+            <img src="/icons/Lemon.svg" alt="lemon" />
+            <img src="/icons/Lemon.svg" alt="lemon" />
+          </div>
+          что бы получить
+        </h5>
       </div>
     </div>
   </div>
@@ -109,8 +119,14 @@ const getItemStyle = (index: number) => {
     padding: 0.5rem 1rem;
     border-radius: 2rem;
     border: 0.1rem solid var(--color-light-blue);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(2rem);
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    img {
+      width: 2rem;
+    }
   }
 
   &__bottom {
@@ -120,6 +136,16 @@ const getItemStyle = (index: number) => {
     border-radius: 2rem;
     background-color: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(2rem);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    &-icons {
+      display: flex;
+      align-items: center;
+      img {
+        width: 2rem;
+      }
+    }
   }
 }
 

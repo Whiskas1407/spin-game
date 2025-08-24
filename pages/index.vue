@@ -10,7 +10,6 @@ const statusButton = ref(1);
 // Количество рулеток и их референсы
 const rouletteCountList = [1, 3, 5];
 const countRoulette = ref<number>(1);
-const roulettes = ref([{ id: 'r1' }]);
 const rouletteRefs = ref<InstanceType<typeof Roulette>[]>([]);
 
 function setRef(el: InstanceType<typeof Roulette> | null, index: number) {
@@ -24,10 +23,31 @@ function startRoulette() {
   setTimeout(() => statusButton.value = 1, 3000);
 }
 
+const mainRoulette = { id: 'main' }; // Центральная рулетка
+const roulettes = ref([{ ...mainRoulette }]);
+
 function changeActiveRoulette(count: number) {
   countRoulette.value = count;
-  roulettes.value = Array.from({ length: count }, (_, i) => ({ id: `r${i + 1}` }));
+
+  if (count === 1) {
+    roulettes.value = [{ ...mainRoulette }];
+  } else if (count === 3) {
+    roulettes.value = [
+      { id: 'left' },
+      { ...mainRoulette },
+      { id: 'right' }
+    ];
+  } else if (count === 5) {
+    roulettes.value = [
+      { id: 'left1' },
+      { id: 'left2' },
+      { ...mainRoulette },
+      { id: 'right1' },
+      { id: 'right2' }
+    ];
+  }
 }
+
 
 // Кнопки выбора количества рулеток
 const rouletteBtns = ref<HTMLElement[]>([]);
@@ -87,10 +107,8 @@ watch(countRoulette, updateBorderPosition);
 
     <div class="home__block container">
       <div class="home__spin" @click="startRoulette">
-        <img class="home__spin-image-left" src="/image/spin-image-1.png" alt="spin" />
-        <h3 class="home__spin-text" v-show="statusButton === 1">КРУТИТЬ за 40 ⭐</h3>
-        <h3 class="home__spin-text" v-show="statusButton === 2">Крутим...</h3>
-        <img class="home__spin-image-right" src="/image/spin-image-2.png" alt="spin" />
+        <h3 class="home__spin-text font-medium" v-show="statusButton === 1">КРУТИТЬ за 40 <img src="/icons/Star.svg" alt="star" /></h3>
+        <h3 class="home__spin-text font-medium" v-show="statusButton === 2">Крутим...</h3>
       </div>
     </div>
   </div>
@@ -122,7 +140,6 @@ watch(countRoulette, updateBorderPosition);
 
       &.layout-1 { grid-template-columns: 1fr; }
       &.layout-3 { grid-template-columns: repeat(3, auto); padding-top: 5rem; }
-      &.layout-5 { grid-template-columns: repeat(3, auto); grid-template-rows: repeat(2, auto); }
     }
   }
 
@@ -171,15 +188,47 @@ watch(countRoulette, updateBorderPosition);
     width: 100%;
     height: 10rem;
     border-radius: 2rem;
-    background: linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
+    background:
+        url("@/public/image/spin-image-1.png") bottom left / 13rem no-repeat,
+        url("@/public/image/spin-image-2.png") top right / 13rem no-repeat,
+        linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
     transition: 0.5s ease;
 
-    &-text { font-size: 3.2rem; transition: 0.5s ease; }
+    &-text {
+      font-size: 3.2rem;
+      transition: 0.5s ease;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      img {
+        width: 3.5rem;
+      }
+    }
 
     &-image-left { width: 12.4rem; position: absolute; bottom: 0; left: 0; }
     &-image-right { width: 12.7rem; position: absolute; top: 0; right: 0; }
   }
 }
+
+.home__roulette-item.layout-5 {
+  display: flex;
+  flex-wrap: wrap;        /* перенос элементов на новую строку */
+  justify-content: center; /* центрируем все по горизонтали */
+  gap: 1rem;               /* расстояние между рулетками */
+}
+
+.home__roulette-item.layout-5 > :nth-child(1),
+.home__roulette-item.layout-5 > :nth-child(2),
+.home__roulette-item.layout-5 > :nth-child(3) {
+  flex: 0 0 auto; /* верхние 3 рулетки занимают своё место */
+}
+
+.home__roulette-item.layout-5 > :nth-child(4),
+.home__roulette-item.layout-5 > :nth-child(5) {
+  flex: 0 0 auto;
+}
+
+
 
 /* Размеры рулеток */
 .roulette-size-1 { width: 30rem; height: 27.5rem; transition: all 0.4s ease; }

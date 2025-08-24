@@ -12,7 +12,7 @@
 }
 @font-face {
     font-family: "SF-Light";
-    src: url("/public/font/SFPRODISPLAYLIGHTITALIC.OTF") format("opentype");
+    src: url("/public/font/SF-Pro-Display-Light.otf") format("opentype");
     font-weight: 300;
     font-style: normal;
 }
@@ -20,5 +20,10 @@
     font-family: "SF-Medium";
     src: url("/public/font/SFPRODISPLAYMEDIUM.OTF") format("opentype");
     font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: "SF-SemiBold";
+    src: url("/public/font/SF-Pro-Display-Semibold.otf") format("opentype");
     font-style: normal;
 }

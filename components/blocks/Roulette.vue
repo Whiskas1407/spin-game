@@ -124,7 +124,6 @@ defineExpose({ startSpin, forceStop });
   position: relative;
   width: 30rem;
   height: 27.5rem;
-  margin: auto;
   touch-action: manipulation;
 }
 
