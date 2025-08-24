@@ -61,7 +61,7 @@ const buttonText = computed(() => {
 
     <!-- Кнопка -->
     <div class="gift__block container">
-      <div
+      <button
           v-if="gifts.length > 0"
           class="gift__button"
           :class="{ 'gift__button-active': btnStatus !== 1 }"
@@ -69,14 +69,12 @@ const buttonText = computed(() => {
       >
         <img v-if="btnStatus === 1" class="gift__button-image-center" src="@/public/icons/upload.svg" alt="upload" />
         <h3 class="gift__button-text">{{ buttonText }}</h3>
-      </div>
-      <NuxtLink
-          to="/"
-          v-else
-          class="gift__button"
-      >
-        <img class="gift__button-image-center" src="@/public/icons/noto_slot-machine.svg" alt="slot" />
-        <h3 class="gift__button-text">Начать крутить...</h3>
+      </button>
+      <NuxtLink to="/" v-else>
+       <button  class="gift__button">
+         <img class="gift__button-image-center" src="@/public/icons/noto_slot-machine.svg" alt="slot" />
+         <h3 class="gift__button-text">Начать крутить...</h3>
+       </button>
       </NuxtLink>
     </div>
 

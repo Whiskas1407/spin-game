@@ -90,7 +90,7 @@ import Header from "@/components/layouts/Header.vue";
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    height: 55vh;
+    max-height: calc(100vh - 37rem);
     overflow-y: scroll;
   }
 

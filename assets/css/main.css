@@ -4,15 +4,20 @@
 
 @media screen and (min-width: 600px) {
     :root {
-        font-size: .4vw;
+        font-size: 10px;
+    }
+    body {
+        max-width: 600px;
     }
 }
 
+
+
 body {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
-    font-family: "SF-Regular", sans-serif;
+    font-family: "SF-Light", sans-serif;
     background: var(--color-black);
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -65,24 +70,29 @@ p {
 h5 {
     font-size: 1.8rem;
     letter-spacing: 0.1rem;
-    font-family: SF-Regular, sans-serif;
+    font-family: "SF-Light", sans-serif;
 }
 
 h4 {
     font-size: 2rem;
     letter-spacing: 0.1rem;
-    font-family: SF-Regular, sans-serif;
+    font-family: "SF-Light", sans-serif;
 }
 
 h3 {
     font-size: 2.4rem;
     letter-spacing: 0.1rem;
-    font-family: SF-Regular, sans-serif;
+    font-family: "SF-Light", sans-serif;
 }
 
 h2 {
     font-size: 5rem;
     letter-spacing: 0.1rem;
-    font-family: SF-Regular, sans-serif;
+    font-family: "SF-Light", sans-serif;
+}
+
+button {
+    outline: none;
+    border-style: none;
 }
 

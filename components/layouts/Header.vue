@@ -64,7 +64,7 @@ const languages = [
     <!-- Онлайн -->
     <div class="header__online">
       <div class="header__online-status"></div>
-      <h4>{{ number }} Онлайн</h4>
+      <h4 class="font-light">{{ number }} Онлайн</h4>
     </div>
 
     <!-- Баланс -->

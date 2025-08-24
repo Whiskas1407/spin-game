@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import {useRoute} from "#vue-router";
 const route = useRoute();
-
-console.log(route)
+console.log(route.fullPath)
 </script>
 <template>
-  <div class="menu">
+  <div class="menu" :class="route.fullPath === '/history' || route.fullPath === '/leaders' ? 'menu__fixed' : ''">
     <div class="menu__block">
       <NuxtLink to="/gifts" class="menu__item">
         <img class="menu__item-image" src="@/public/icons/gift.svg" alt="gift" />
@@ -26,12 +25,15 @@ console.log(route)
 .menu {
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 58.9rem;
   background-color: var(--color-black-opacity-50);
   z-index: 2;
   border-top: .1rem solid #FFFFFF;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
+  &__fixed {
+    position: fixed !important;
+  }
   &__block {
     display: flex;
     align-items: center;

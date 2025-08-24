@@ -118,7 +118,7 @@ const getItemStyle = (index: number) => {
     top: 5.5rem;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
-    border: 0.1rem solid var(--color-light-blue);
+    border-top: 0.1rem solid var(--color-light-blue);
     background-color: rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(2rem);
     display: flex;

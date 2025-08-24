@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Header from "~/components/layouts/Header.vue";
 
-// Массив истории для рендера
 const historyItems = Array.from({ length: 8 }, (_, i) => ({
   id: i + 1,
   username: '@username',
@@ -9,11 +8,13 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
   itemImage: '/image/items/item-1.png',
   spins: 20,
   date: '21.08.2025 | 18:36'
-}))
+}));
 </script>
 
 <template>
   <div class="history">
+    <div class="history__bg"></div>
+
     <div class="container">
       <Header hideUiButtons />
     </div>
@@ -40,19 +41,38 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
 
 <style lang="scss" scoped>
 .history {
-  background-image: url("/public/image/bg-history-1.png"), url("/public/image/bg-history-2.png");
-  background-repeat: no-repeat;
-  background-position: bottom left, top right;
-  background-size: 70%;
-  padding-bottom: 14rem;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding-top: 14rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/image/bg-history-1.png"), url("/image/bg-history-2.png");
+    background-repeat: no-repeat;
+    background-position: bottom left, top right;
+    background-size: 70%;
+    z-index: -1;
+  }
 
   &__content {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 1rem;
 
     & > .history__title {
-      padding-top: 1rem;
       font-size: 3.2rem;
     }
   }
@@ -63,8 +83,9 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
     align-items: center;
     gap: 4.5rem;
     padding-top: 2.5rem;
-    height: 90vh;
+    max-height: calc(100vh - 40rem);
     overflow-y: auto;
+    width: 100%;
   }
 
   &__item {
@@ -103,6 +124,7 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
     border-top: 0.1rem solid var(--color-light-blue);
     background-color: var(--color-black-opacity-5);
     backdrop-filter: blur(2rem);
+
     img {
       width: 3rem;
     }

@@ -106,10 +106,10 @@ watch(countRoulette, updateBorderPosition);
     </div>
 
     <div class="home__block container">
-      <div class="home__spin" @click="startRoulette">
+      <button class="home__spin" @click="startRoulette">
         <h3 class="home__spin-text font-medium" v-show="statusButton === 1">КРУТИТЬ за 40 <img src="/icons/Star.svg" alt="star" /></h3>
         <h3 class="home__spin-text font-medium" v-show="statusButton === 2">Крутим...</h3>
-      </div>
+      </button>
     </div>
   </div>
 </template>
@@ -150,6 +150,7 @@ watch(countRoulette, updateBorderPosition);
     background-color: var(--color-black-opacity-40);
     border-radius: 2rem;
     padding: 0.5rem;
+    margin: 2rem;
 
     &-item {
       display: flex;
@@ -167,10 +168,10 @@ watch(countRoulette, updateBorderPosition);
 
     &-border {
       position: absolute;
-      top: 0.5rem;
-      left: 2.1rem;
-      width: 18.1rem;
-      height: 8rem;
+      top: 0;
+      left: 0;
+      width: 18.3rem;
+      height: 8.7rem;
       border-radius: 2rem;
       border: 0.2rem solid var(--color-light-blue);
       transition: transform 0.7s ease;
@@ -233,5 +234,5 @@ watch(countRoulette, updateBorderPosition);
 /* Размеры рулеток */
 .roulette-size-1 { width: 30rem; height: 27.5rem; transition: all 0.4s ease; }
 .roulette-size-3 { width: 18.3rem; height: 17.3rem; transition: all 0.4s ease; }
-.roulette-size-5 { width: 14.7rem; height: 14rem; transition: all 0.4s ease; }
+.roulette-size-5 { width: 14.3rem; height: 14rem; transition: all 0.4s ease; }
 </style>
