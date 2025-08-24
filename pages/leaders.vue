@@ -8,7 +8,7 @@ import Header from "@/components/layouts/Header.vue";
 
     <div class="leaders__info">
       <h3 class="leaders__title">Таблица лидеров</h3>
-      <h5>ТОП 100 ПОБЕДИТЕЛЕЙ</h5>
+      <h5 class="leaders__subtitle">ТОП 100 ПОБЕДИТЕЛЕЙ</h5>
 
       <div class="leaders__items">
         <!-- Топ 3 -->
@@ -66,6 +66,7 @@ import Header from "@/components/layouts/Header.vue";
 
 <style lang="scss" scoped>
 .leaders {
+  width: 100vw;
   height: 100%;
   padding: 10rem 0 20rem;
   background:
@@ -83,9 +84,12 @@ import Header from "@/components/layouts/Header.vue";
   &__title {
     font-size: 3.2rem;
   }
+  &__subtitle {
+    color: var(--color-gray-white-dark);
+  }
 
   &__items {
-    padding-top: 1rem;
+    padding-top: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;

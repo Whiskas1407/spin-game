@@ -18,6 +18,7 @@
   --color-light-blue: #00AEFF;
   --color-gray: #747474;
   --color-gray-light: #898989;
+  --color-gray-white-dark: rgba(251, 251, 251, 1);
   --color-gradient-blue: linear-gradient(89.92deg, #01D9FF 0.06%, #0051FF 102.24%);
 
 }

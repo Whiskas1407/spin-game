@@ -86,7 +86,7 @@ function closeModal() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
+  gap: 3rem;
 
   &__head {
     display: flex;
@@ -137,22 +137,33 @@ function closeModal() {
   }
 
   &__input {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 1rem;
     width: 100%;
 
     input {
-      font-size: 6.4rem;
-      border: none;
-      background: none;
-      width: 22rem;
-      color: var(--color-white);
+      width: 100%;
+      height: 8rem;
       outline: none;
-      text-align: right;
+      opacity: 0;
+      z-index: 1;
     }
-    img {
-      width: 4rem;
+    &-text {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+      img {
+        width: 3rem;
+      }
     }
   }
 
@@ -196,11 +207,17 @@ function closeModal() {
   &__items {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
     gap: 1rem;
   }
 
   &__item {
-    padding: 2rem 3rem;
+    padding: 2rem 0;
+    width: 15.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 0.2rem solid var(--color-orange);
     background-color: var(--color-black);
     border-radius: 2rem;

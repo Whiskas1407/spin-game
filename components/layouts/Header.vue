@@ -19,7 +19,7 @@ const statusModal = ref({
   settings: false
 })
 let intervalId: number | undefined
-
+let countTon = ref(0)
 function connectWallet() {
   address.value = 'UQDhAD.....yWYo7B'
 }
@@ -104,8 +104,10 @@ const languages = [
           </div>
         </div>
         <div class="wallet__input">
-          <input type="number" placeholder="0" />
-          <h2>TON</h2>
+          <input v-model="countTon" type="number" />
+          <h2 class="wallet__input-text">
+            {{ countTon ? countTon : 0 }} TON
+          </h2>
         </div>
         <ButtonComponent :background="address ? 'color-blue' : 'color-gray-opacity-10'" class="wallet__btn">
           <h3>{{ address ? 'Пополнить' : 'Сперва - подключите кошелёк' }}</h3>
@@ -128,8 +130,11 @@ const languages = [
         </div>
 
         <div class="wallet__input" v-else>
-          <input type="number" placeholder="0" />
-          <img src="@/public/icons/Star.svg" alt="icon" />
+          <input v-model="countTon" type="number" />
+          <h2 class="wallet__input-text">
+            {{ countTon ? countTon : 0 }}
+            <img src="@/public/icons/Star.svg" alt="icon" />
+          </h2>
         </div>
 
         <ButtonComponent

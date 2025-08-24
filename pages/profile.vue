@@ -47,7 +47,10 @@ const referrals = Array(3).fill({ text: 'Получайте с депозита 
 
       <!-- Referral -->
       <div class="profile__referral">
-        <h3 class="profile__referral-title">💰Реферальная система</h3>
+        <h3 class="profile__referral-title">
+          <img src="@/public/image/money.png" alt="money" />
+          Реферальная система
+        </h3>
         <div
             class="profile__referral-item"
             v-for="(ref, index) in referrals"
@@ -157,7 +160,16 @@ const referrals = Array(3).fill({ text: 'Получайте с депозита 
     align-items: center;
     gap: 1rem;
 
-    &-title { font-size: 3.2rem; }
+    &-title {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 3.2rem;
+      gap: 1rem;
+      img {
+        width: 3rem;
+      }
+    }
 
     &-item {
       display: flex;

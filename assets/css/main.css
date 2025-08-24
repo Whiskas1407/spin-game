@@ -3,16 +3,19 @@
     font-size: 1.698vw;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 768px) {
     :root {
-        font-size: 10px;
+        font-size: 13.2px;
     }
     body {
-        max-width: 600px;
+        max-width: 768px;
     }
 }
 
 
+* {
+    user-select: none;
+}
 
 body {
     margin: 0 auto;
