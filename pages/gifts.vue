@@ -101,6 +101,7 @@ const buttonText = computed(() => {
 .gift {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding-bottom: 20rem;
 
   &__content {
@@ -182,7 +183,7 @@ const buttonText = computed(() => {
     position: relative;
     display: flex; gap: 1rem;
     align-items: center; justify-content: center;
-    width: 100%;
+    width: 56rem;
     height: 10rem;
     border-radius: 2rem;
     background:

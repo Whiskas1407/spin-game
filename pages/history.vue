@@ -41,16 +41,12 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
 
 <style lang="scss" scoped>
 .history {
-  position: fixed;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
-  padding-top: 14rem;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 18rem;
 
   &__bg {
     position: fixed;
@@ -83,8 +79,6 @@ const historyItems = Array.from({ length: 8 }, (_, i) => ({
     align-items: center;
     gap: 4.5rem;
     padding-top: 2.5rem;
-    max-height: calc(100vh - 40rem);
-    overflow-y: auto;
     width: 100%;
   }
 

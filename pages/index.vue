@@ -163,7 +163,7 @@ watch(countRoulette, updateBorderPosition);
     background-color: var(--color-black-opacity-40);
     border-radius: 2rem;
     padding: 0.5rem;
-    margin-top: 5rem;
+    margin: 5rem 2rem 1rem;
     @media (min-width: 768px) {
       margin-top: 7rem;
     }

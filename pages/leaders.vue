@@ -68,7 +68,7 @@ import Header from "@/components/layouts/Header.vue";
 .leaders {
   width: 100vw;
   height: 100%;
-  padding: 10rem 0 20rem;
+  padding: 5rem 0 20rem;
   background:
       url("@/public/image/leaders-bg-1.png") top right / 28.3rem no-repeat,
       url("@/public/image/leaders-bg-2.png") left center / 28.3rem no-repeat,
@@ -94,8 +94,6 @@ import Header from "@/components/layouts/Header.vue";
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    max-height: calc(100vh - 36rem);
-    overflow-y: scroll;
   }
 
   &__other {
