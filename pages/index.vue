@@ -55,11 +55,24 @@ const borderStyle = ref({ transform: 'translateX(0)' });
 
 const updateBorderPosition = () => {
   if (!rouletteBtns.value.length) return;
+
   const index = rouletteCountList.indexOf(countRoulette.value);
   if (index === -1) return;
 
-  const btnWidth = rouletteBtns.value[0].offsetWidth;
-  borderStyle.value.transform = `translateX(${index * btnWidth}px)`;
+  const activeBtn = rouletteBtns.value[index];
+  const parent = activeBtn.parentElement as HTMLElement;
+
+  if (!parent) return;
+
+  const parentRect = parent.getBoundingClientRect();
+  const btnRect = activeBtn.getBoundingClientRect();
+
+  const offsetX = btnRect.left - parentRect.left;
+
+  borderStyle.value = {
+    transform: `translateX(${offsetX}px)`,
+    width: `${btnRect.width}px` // динамически подстраиваем ширину
+  };
 };
 
 onMounted(async () => {
@@ -146,17 +159,20 @@ watch(countRoulette, updateBorderPosition);
   &__buttons {
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     background-color: var(--color-black-opacity-40);
     border-radius: 2rem;
     padding: 0.5rem;
-    margin: 2rem;
+    margin-top: 5rem;
+    @media (min-width: 768px) {
+      margin-top: 7rem;
+    }
 
     &-item {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 18.1rem;
+      width: 22rem;
       height: 8rem;
       font-size: 3.2rem;
       border-radius: 2rem;
@@ -165,16 +181,14 @@ watch(countRoulette, updateBorderPosition);
 
       &-active { font-size: 4rem; }
     }
-
     &-border {
       position: absolute;
       top: 0;
       left: 0;
-      width: 18.3rem;
-      height: 8.7rem;
+      height: 100%; /* чтобы всегда по высоте кнопки */
       border-radius: 2rem;
       border: 0.2rem solid var(--color-light-blue);
-      transition: transform 0.7s ease;
+      transition: transform 0.3s ease, width 0.3s ease; /* анимируем и позицию, и ширину */
       pointer-events: none;
     }
   }
@@ -215,7 +229,10 @@ watch(countRoulette, updateBorderPosition);
   display: flex;
   flex-wrap: wrap;        /* перенос элементов на новую строку */
   justify-content: center; /* центрируем все по горизонтали */
-  gap: 1rem;               /* расстояние между рулетками */
+  column-gap: 6rem; /* расстояние между рулетками */
+  @media (min-width: 768px) {
+    column-gap: 12rem;
+  }
 }
 
 .home__roulette-item.layout-5 > :nth-child(1),
@@ -234,5 +251,9 @@ watch(countRoulette, updateBorderPosition);
 /* Размеры рулеток */
 .roulette-size-1 { width: 30rem; height: 27.5rem; transition: all 0.4s ease; }
 .roulette-size-3 { width: 18.3rem; height: 17.3rem; transition: all 0.4s ease; }
-.roulette-size-5 { width: 14.3rem; height: 14rem; transition: all 0.4s ease; }
+.roulette-size-5 {
+  width: 16.3rem;
+  height: 16rem;
+  transition: all 0.4s ease;
+}
 </style>

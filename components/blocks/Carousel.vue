@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Item1 from '~/public/image/items/item-1.png'
 import Item2 from '~/public/image/items/item-2.png'
 import Item3 from '~/public/image/items/item-3.png'
@@ -85,8 +85,11 @@ const getItemStyle = (index: number) => {
     width: 100%;
     height: 100%;
     top: -52.5%;
-    left: -25%;
+    left: -21%;
     z-index: 2;
+    @media (min-width: 768px) {
+      left: -17%;
+    }
   }
 
   &__item {

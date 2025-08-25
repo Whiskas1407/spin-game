@@ -1,11 +1,11 @@
 :root {
     /*font-size: min(1.698vw, .77vh)*/
-    font-size: 1.6vw;
+    font-size: 1.4vw;
 }
 
 @media screen and (min-width: 768px) {
     :root {
-        font-size: 13.2px;
+        font-size: 8px;
     }
     body {
         max-width: 768px;
